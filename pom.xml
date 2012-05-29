@@ -25,6 +25,7 @@
 
     <properties>
         <elasticsearch.version>0.19.3</elasticsearch.version>
+        <github.global.server>github</github.global.server>
     </properties>
 
     <dependencies>
