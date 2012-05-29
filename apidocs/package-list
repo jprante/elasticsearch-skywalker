@@ -1,0 +1,8 @@
+org.apache.lucene.index
+org.elasticsearch.action.skywalker
+org.elasticsearch.module.skywalker
+org.elasticsearch.plugin.skywalker
+org.elasticsearch.rest.action.skywalker
+org.elasticsearch.skywalker
+org.elasticsearch.skywalker.collectors
+org.elasticsearch.skywalker.reconstruct
