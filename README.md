@@ -7,17 +7,17 @@ Well, almost, it's not coming with a GUI right now.
 
 Skywalking gives you
 
-- an deeper insight of how Elasticsearch stores Lucene indices and fields
+- a deeper insight of how Elasticsearch stores Lucene indices and fields
 
-- lists timestamps and checksums of Elasticsearch Lucene files
+- lists timestamps and checksums of Elasticsearch's Lucene files
 
-- shows field names, both from mapping and from Lucene indices
+- shows field names, both from mapping and Lucene indices
 
-- shows field types and attributes, both from mapping and from Lucene indices
+- shows field types and attributes, both from mapping and Lucene indices
 
 - retrieves a ranked list of most frequent terms
 
-Because Elasticsearch and ELasticsearch Head does already a lot what Luke offers on the basis of Lucene, Skywalker has rather few features, just to complement some missing parts.
+Because Elasticsearch and ELasticsearch Head does already a lot what Luke offers with Lucene, Skywalker has rather few features, just to complement some missing parts.
 
 Planned features
 
@@ -28,11 +28,11 @@ Planned features
 Usage example
 -------------
 
-Usage is simple
+Usage is simple. Just issue
 
 	curl -XGET 'localhost:9200/_skywalker'
 
-Or for a single index 
+Or, for a single index 
 
 	curl -XGET 'localhost:9200/indexname/_skywalker'
 
@@ -42,13 +42,13 @@ Installation
 
 In order to install the plugin, simply run: `bin/plugin -install jprante/elasticsearch-skywalker/1.0.0`.
 
-    -------------------------------------
-    | OAI Plugin     | ElasticSearch    |
-    -------------------------------------
-    | master         | 0.19.3 -> master |
-    -------------------------------------
-    | 1.0.0          | 0.19.3           |
-    -------------------------------------
+    ---------------------------------------
+    | Skywalker Plugin | ElasticSearch    |
+    ---------------------------------------
+    | master           | 0.19.3 -> master |
+    ---------------------------------------
+    | 1.0.0            | 0.19.3           |
+    ---------------------------------------
 
 
 Documentation
