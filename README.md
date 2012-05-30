@@ -198,3 +198,11 @@ Example output
 	        "isindexed" : true
 	      }, {
 	[...]
+	
+	
+License
+-------
+[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+This plugin re-uses code of the Luke project <http://code.google.com/p/luke/>
+
