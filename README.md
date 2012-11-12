@@ -17,7 +17,7 @@ Skywalking gives you
 
 - retrieves a ranked list of most frequent terms
 
-Because Elasticsearch and ELasticsearch Head does already a lot what Luke offers with Lucene, Skywalker has rather few features, just to complement some missing parts.
+Because Elasticsearch and Elasticsearch Head offer already a lot what Luke does with Lucene, Skywalker has rather few features, just to complement some missing parts.
 
 Planned features
 
@@ -40,12 +40,14 @@ Or, for a single index
 Installation
 ------------
 
-In order to install the plugin, simply run: `bin/plugin -install jprante/elasticsearch-skywalker/1.0.0`.
+In order to install the plugin, simply run: `bin/plugin -install jprante/elasticsearch-skywalker/1.0.1`.
 
     ---------------------------------------
     | Skywalker Plugin | ElasticSearch    |
     ---------------------------------------
-    | master           | 0.19.3 -> master |
+    | master           | 0.19.11 -> master |
+    ---------------------------------------
+    | 1.0.1            | 0.19.11          |
     ---------------------------------------
     | 1.0.0            | 0.19.3           |
     ---------------------------------------
