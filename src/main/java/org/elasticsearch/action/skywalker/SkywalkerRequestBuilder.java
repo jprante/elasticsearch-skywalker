@@ -20,52 +20,23 @@
 package org.elasticsearch.action.skywalker;
 
 import org.elasticsearch.action.ActionListener;
-import org.elasticsearch.action.support.BaseRequestBuilder;
-import org.elasticsearch.action.support.broadcast.BroadcastOperationThreading;
+import org.elasticsearch.action.support.broadcast.BroadcastOperationRequestBuilder;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.internal.InternalGenericClient;
 
 /**
  * A request to skywalk one or more indices.
  */
-public class SkywalkerRequestBuilder extends BaseRequestBuilder<SkywalkerRequest, SkywalkerResponse> {
+public class SkywalkerRequestBuilder extends BroadcastOperationRequestBuilder<SkywalkerRequest, SkywalkerResponse, SkywalkerRequestBuilder> {
 
     /**
      * Constructor
      * @param indicesClient 
      */
-    public SkywalkerRequestBuilder(Client indicesClient) {
-        super(indicesClient, new SkywalkerRequest());
+    public SkywalkerRequestBuilder(InternalGenericClient client) {
+        super(client, new SkywalkerRequest());
     }
 
-    /**
-     * Set indices
-     * @param indices
-     * @return this SkywalkerRequestBuilder
-     */
-    public SkywalkerRequestBuilder setIndices(String... indices) {
-        request.indices(indices);
-        return this;
-    }
-
-    /**
-     * Should the listener be called on a separate thread if needed.
-     * @param threadedListener true or false
-     * @return this SkywalkerRequestBuilder
-     */
-    public SkywalkerRequestBuilder setListenerThreaded(boolean threadedListener) {
-        request.listenerThreaded(threadedListener);
-        return this;
-    }
-
-    /**
-     * Controls the operation threading model.
-     * @param operationThreading
-     * @return this SkywalkerRequestBuilder
-     */
-    public SkywalkerRequestBuilder setOperationThreading(BroadcastOperationThreading operationThreading) {
-        request.operationThreading(operationThreading);
-        return this;
-    }
 
     /**
      * Execute Skywalker action.
@@ -74,6 +45,6 @@ public class SkywalkerRequestBuilder extends BaseRequestBuilder<SkywalkerRequest
      */
     @Override
     protected void doExecute(ActionListener<SkywalkerResponse> listener) {
-        client.execute(SkywalkerAction.INSTANCE, request, listener);
+        ((Client)client).execute(SkywalkerAction.INSTANCE, request, listener);
     }
 }

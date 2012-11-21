@@ -6,7 +6,7 @@
     <groupId>org.elasticsearch</groupId>
     <artifactId>elasticsearch-skywalker</artifactId>
     <name>elasticsearch-skywalker</name>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
     <description>ElasticSearch Skywalker -  Luke for Elasticsearch</description>
     <inceptionYear>2012</inceptionYear>
@@ -24,7 +24,7 @@
     </scm>
 
     <properties>
-        <elasticsearch.version>0.19.11</elasticsearch.version>
+        <elasticsearch.version>0.20.0.RC2-SNAPSHOT</elasticsearch.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.global.server>github</github.global.server>
     </properties>
@@ -36,34 +36,32 @@
             <version>${elasticsearch.version}</version>
             <scope>compile</scope>
         </dependency>
-    </dependencies>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <locale>en</locale>
-                    <linksource>true</linksource>
-                    <validateLinks>true</validateLinks>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.12.4</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
     <build>
         <plugins>

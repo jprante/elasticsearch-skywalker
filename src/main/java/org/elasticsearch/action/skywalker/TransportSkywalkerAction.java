@@ -18,6 +18,8 @@
  */
 package org.elasticsearch.action.skywalker;
 
+import static org.elasticsearch.common.collect.Lists.newArrayList;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +46,6 @@ import org.elasticsearch.cluster.block.ClusterBlockLevel;
 import org.elasticsearch.cluster.routing.GroupShardsIterator;
 import org.elasticsearch.cluster.routing.ShardRouting;
 import org.elasticsearch.common.collect.ImmutableMap;
-import static org.elasticsearch.common.collect.Lists.newArrayList;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.joda.FormatDateTimeFormatter;
 import org.elasticsearch.common.joda.Joda;
@@ -235,7 +236,7 @@ public class TransportSkywalkerAction
         info.put("storePayloads", fieldinfo.storePayloads);
         info.put("storeTermVector", fieldinfo.storeTermVector);
         info.put("number", fieldinfo.number);
-        info.put("omitNorms", fieldinfo.omitNorms);
+        info.put("omitNorms", fieldinfo.omitNorms);        
         info.put("options", fieldinfo.indexOptions.name().toString());
         MapperService mapperService = indexService.mapperService();
         if (mapperService == null) {
@@ -248,7 +249,6 @@ public class TransportSkywalkerAction
             mapper.put("boost", fieldMapper.boost());
             mapper.put("indexed", fieldMapper.indexed());
             mapper.put("omitNorms", fieldMapper.omitNorms());
-            mapper.put("omitTermFreqAndPositions", fieldMapper.omitTermFreqAndPositions());
             Type type = FieldType.type(fieldMapper.fieldDataType());
             mapper.put("fieldDataType", type.toString());
             types.put(fieldinfo.name, type);

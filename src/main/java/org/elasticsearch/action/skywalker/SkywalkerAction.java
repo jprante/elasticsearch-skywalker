@@ -20,6 +20,7 @@ package org.elasticsearch.action.skywalker;
 
 import org.elasticsearch.action.Action;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.internal.InternalGenericClient;
 
 public class SkywalkerAction extends Action<SkywalkerRequest, SkywalkerResponse, SkywalkerRequestBuilder> {
 
@@ -37,6 +38,6 @@ public class SkywalkerAction extends Action<SkywalkerRequest, SkywalkerResponse,
 
     @Override
     public SkywalkerRequestBuilder newRequestBuilder(Client client) {
-        return new SkywalkerRequestBuilder(client);
+        return new SkywalkerRequestBuilder((InternalGenericClient)client);
     }
 }

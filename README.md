@@ -40,12 +40,12 @@ Or, for a single index
 Installation
 ------------
 
-In order to install the plugin, simply run: `bin/plugin -install jprante/elasticsearch-skywalker/1.0.1`.
+In order to install the plugin, simply run: `bin/plugin -install jprante/elasticsearch-skywalker/1.1.0`.
 
     ---------------------------------------
     | Skywalker Plugin | ElasticSearch    |
     ---------------------------------------
-    | master           | 0.19.11 -> master |
+    | 1.1.0            | 0.20             |
     ---------------------------------------
     | 1.0.1            | 0.19.11          |
     ---------------------------------------

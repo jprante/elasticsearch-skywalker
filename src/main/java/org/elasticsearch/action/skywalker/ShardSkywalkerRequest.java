@@ -29,7 +29,7 @@ public class ShardSkywalkerRequest extends BroadcastShardOperationRequest {
     }
 
     public ShardSkywalkerRequest(String index, int shardId, SkywalkerRequest request) {
-        super(index, shardId);
+        super(index, shardId, request);
     }
     
     @Override
