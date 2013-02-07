@@ -1,4 +1,4 @@
-.. image:: ../../../elasticsearch-river-jdbc/raw/master/src/site/skywalker.png
+.. image:: ../../../elasticsearch-skywalker/raw/master/src/site/skywalker.png
 
 `Sky Walker by Patrick Zédouard <http://www.youtube.com/watch?v=dSNSxZTvXSg>`
 
