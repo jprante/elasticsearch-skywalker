@@ -18,11 +18,12 @@
  */
 package org.elasticsearch.action.skywalker;
 
-import java.io.IOException;
-import java.util.Map;
 import org.elasticsearch.action.support.broadcast.BroadcastShardOperationResponse;
 import org.elasticsearch.common.io.stream.StreamInput;
 import org.elasticsearch.common.io.stream.StreamOutput;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class ShardSkywalkerResponse extends BroadcastShardOperationResponse {
 

@@ -18,13 +18,14 @@
  */
 package org.elasticsearch.skywalker.reconstruct;
 
+import org.apache.lucene.document.Fieldable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import org.apache.lucene.document.Fieldable;
 
 public class Reconstructed {
 
@@ -39,11 +40,11 @@ public class Reconstructed {
     /**
      * Construct an instance of this class using existing field data.
      *
-     * @param storedFields field data of stored fields
+     * @param storedFields        field data of stored fields
      * @param reconstructedFields field data of unstored fields
      */
     public Reconstructed(Map<String, Fieldable[]> storedFields,
-            Map<String, GrowableStringArray> reconstructedFields) {
+                         Map<String, GrowableStringArray> reconstructedFields) {
         this.storedFields = storedFields;
         this.reconstructedFields = reconstructedFields;
     }

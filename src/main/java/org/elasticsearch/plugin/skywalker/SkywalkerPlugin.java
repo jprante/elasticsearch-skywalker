@@ -27,22 +27,22 @@ import org.elasticsearch.rest.action.skywalker.RestSkywalkerAction;
 
 public class SkywalkerPlugin extends AbstractPlugin {
 
-    @Override 
+    @Override
     public String name() {
         return "skywalker";
     }
 
-    @Override 
+    @Override
     public String description() {
         return "Skywalker - Luke for Elasticsearch";
     }
-    
+
     public void onModule(RestModule module) {
         module.addRestAction(RestSkywalkerAction.class);
     }
 
     public void onModule(ActionModule module) {
-        module.registerAction(SkywalkerAction.INSTANCE, TransportSkywalkerAction.class);        
+        module.registerAction(SkywalkerAction.INSTANCE, TransportSkywalkerAction.class);
     }
-    
+
 }

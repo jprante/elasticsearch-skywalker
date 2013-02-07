@@ -1,0 +1,7 @@
+.idea
+*.iml
+.classpath
+.project
+target
+*.db
+data

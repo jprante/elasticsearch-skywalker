@@ -12,12 +12,14 @@
             <unpack>false</unpack>
             <scope>compile</scope>
             <excludes>
+                <exclude>org.xbib.elasticsearch:elasticsearch-skywalker:javadoc</exclude>
                 <exclude>org.elasticsearch:elasticsearch</exclude>
                 <exclude>org.apache.lucene:lucene-core</exclude>
                 <exclude>org.apache.lucene:lucene-analyzers</exclude>
                 <exclude>org.apache.lucene:lucene-queries</exclude>
                 <exclude>org.apache.lucene:lucene-highlighter</exclude>
                 <exclude>org.apache.lucene:lucene-memory</exclude>
+                <exclude>log4j:log4j</exclude>
             </excludes>
         </dependencySet>
     </dependencySets>  

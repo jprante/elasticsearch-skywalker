@@ -18,8 +18,6 @@
  */
 package org.elasticsearch.skywalker.collectors;
 
-import org.elasticsearch.skywalker.collectors.AccessibleHitCollector;
-
 public abstract class LimitedHitCollector extends AccessibleHitCollector {
 
     public static final int TYPE_TIME = 0;

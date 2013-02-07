@@ -27,7 +27,7 @@ public class SkywalkerModule extends ActionModule {
     public SkywalkerModule() {
         super(true);
     }
-    
+
     @Override
     protected void configure() {
         registerAction(SkywalkerAction.INSTANCE, TransportSkywalkerAction.class);

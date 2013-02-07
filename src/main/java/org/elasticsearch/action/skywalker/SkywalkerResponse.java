@@ -18,18 +18,18 @@
  */
 package org.elasticsearch.action.skywalker;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.elasticsearch.action.ShardOperationFailedException;
 import org.elasticsearch.action.support.broadcast.BroadcastOperationResponse;
 import org.elasticsearch.common.io.stream.StreamInput;
 import org.elasticsearch.common.io.stream.StreamOutput;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * A response for a skywalker action.
- *
  */
 public class SkywalkerResponse extends BroadcastOperationResponse {
 
@@ -57,11 +57,11 @@ public class SkywalkerResponse extends BroadcastOperationResponse {
         int indexCount = in.readInt();
         this.response = new HashMap();
         for (int i = 0; i < indexCount; i++) {
-            String index = in.readUTF();
+            String index = in.readString();
             Map<String, Map<String, Object>> shards = new HashMap();
             int shardCount = in.readInt();
             for (int j = 0; j < shardCount; j++) {
-                String shard = in.readUTF();
+                String shard = in.readString();
                 Map<String, Object> fields = in.readMap();
                 shards.put(shard, fields);
             }
@@ -72,14 +72,14 @@ public class SkywalkerResponse extends BroadcastOperationResponse {
     @Override
     public void writeTo(StreamOutput out) throws IOException {
         super.writeTo(out);
-        int indexCount = response.keySet().size(); 
+        int indexCount = response.keySet().size();
         out.writeInt(indexCount);
         for (String index : response.keySet()) {
-            out.writeUTF(index);
+            out.writeString(index);
             int shardCount = response.get(index).keySet().size();
             out.writeInt(shardCount);
             for (String shard : response.get(index).keySet()) {
-                out.writeUTF(shard);
+                out.writeString(shard);
                 out.writeMap(response.get(index).get(shard));
             }
         }

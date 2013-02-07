@@ -18,11 +18,6 @@
  */
 package org.elasticsearch.skywalker;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.FormatDetails;
 import org.apache.lucene.index.IndexGate;
@@ -30,6 +25,12 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.ReaderUtil;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class IndexInfo {
 
@@ -69,10 +70,10 @@ public class IndexInfo {
             te.close();
         }
         fieldInfo = new ArrayList();
-        fieldNames = new ArrayList();        
+        fieldNames = new ArrayList();
         final Iterator<FieldInfo> it = ReaderUtil.getMergedFieldInfos(reader).iterator();
         while (it.hasNext()) {
-            final FieldInfo info = it.next();            
+            final FieldInfo info = it.next();
             fieldInfo.add(info);
             fieldNames.add(info.name);
         }
@@ -84,7 +85,7 @@ public class IndexInfo {
             indexFormat = -1;
             formatDetails = new FormatDetails();
         }
-        topTerms = HighFreqTerms.getHighFreqTerms(reader, null, 51, (String[]) fieldNames.toArray(new String[fieldNames.size()]));
+        topTerms = HighFreqTerms.getHighFreqTerms(reader, null, 51, fieldNames.toArray(new String[fieldNames.size()]));
     }
 
     /**
@@ -129,7 +130,7 @@ public class IndexInfo {
     public List<FieldInfo> getFieldInfos() {
         return fieldInfo;
     }
-    
+
     /**
      * @return the fieldNames
      */

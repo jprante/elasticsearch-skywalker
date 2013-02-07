@@ -18,14 +18,6 @@
  */
 package org.elasticsearch.action.skywalker;
 
-import static org.elasticsearch.common.collect.Lists.newArrayList;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexCommit;
 import org.apache.lucene.index.IndexGate;
@@ -64,6 +56,15 @@ import org.elasticsearch.skywalker.TermInfo;
 import org.elasticsearch.threadpool.ThreadPool;
 import org.elasticsearch.transport.TransportService;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+
+import static org.elasticsearch.common.collect.Lists.newArrayList;
+
 /**
  * Transport action for Skywalker plugin.
  */
@@ -77,8 +78,8 @@ public class TransportSkywalkerAction
 
     @Inject
     public TransportSkywalkerAction(Settings settings, ThreadPool threadPool,
-            ClusterService clusterService, TransportService transportService,
-            IndicesService indicesService) {
+                                    ClusterService clusterService, TransportService transportService,
+                                    IndicesService indicesService) {
         super(settings, threadPool, clusterService, transportService);
         this.indicesService = indicesService;
     }
@@ -182,7 +183,7 @@ public class TransportSkywalkerAction
                 response.put("indexFormat", indexFormat);
                 response.put("directoryImpl", indexInfo.getDirImpl());
                 List commits = new ArrayList();
-                for (IndexCommit ic : reader.listCommits(directory)) {
+                for (IndexCommit ic : IndexReader.listCommits(directory)) {
                     Map commitMap = new HashMap();
                     commitMap.put("segment", ic.getSegmentsFileName());
                     commitMap.put("count", ic.getSegmentCount());
@@ -236,7 +237,7 @@ public class TransportSkywalkerAction
         info.put("storePayloads", fieldinfo.storePayloads);
         info.put("storeTermVector", fieldinfo.storeTermVector);
         info.put("number", fieldinfo.number);
-        info.put("omitNorms", fieldinfo.omitNorms);        
+        info.put("omitNorms", fieldinfo.omitNorms);
         info.put("options", fieldinfo.indexOptions.name().toString());
         MapperService mapperService = indexService.mapperService();
         if (mapperService == null) {

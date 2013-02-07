@@ -31,7 +31,8 @@ public class SkywalkerRequestBuilder extends BroadcastOperationRequestBuilder<Sk
 
     /**
      * Constructor
-     * @param indicesClient 
+     *
+     * @param client
      */
     public SkywalkerRequestBuilder(InternalGenericClient client) {
         super(client, new SkywalkerRequest());
@@ -40,11 +41,11 @@ public class SkywalkerRequestBuilder extends BroadcastOperationRequestBuilder<Sk
 
     /**
      * Execute Skywalker action.
-     * 
+     *
      * @param listener a response listener
      */
     @Override
     protected void doExecute(ActionListener<SkywalkerResponse> listener) {
-        ((Client)client).execute(SkywalkerAction.INSTANCE, request, listener);
+        ((Client) client).execute(SkywalkerAction.INSTANCE, request, listener);
     }
 }

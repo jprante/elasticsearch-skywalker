@@ -20,7 +20,6 @@ package org.elasticsearch.skywalker.reconstruct;
 
 /**
  * Simple Vector-like implementation of a growable String array.
- *
  */
 public class GrowableStringArray {
 
@@ -60,7 +59,7 @@ public class GrowableStringArray {
      * no separator is appended in that case.
      *
      * @param index selected position
-     * @param sep separator
+     * @param sep   separator
      * @param value value
      */
     public void append(int index, String sep, String value) {

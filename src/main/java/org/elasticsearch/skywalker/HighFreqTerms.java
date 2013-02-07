@@ -18,10 +18,11 @@
  */
 package org.elasticsearch.skywalker;
 
-import java.io.IOException;
-import java.util.Map;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.TermEnum;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * <code>HighFreqTerms</code> class extracts terms and their frequencies out of
@@ -64,13 +65,13 @@ public class HighFreqTerms {
                 tiq.insertWithOverflow(new TermInfo(terms.term(), terms.docFreq()));
                 if (tiq.size() >= numTerms) {
                     tiq.pop();
-                    minFreq = ((TermInfo) tiq.top()).docFreq;
+                    minFreq = tiq.top().docFreq;
                 }
             }
         }
         TermInfo[] res = new TermInfo[tiq.size()];
         for (int i = 0; i < res.length; i++) {
-            res[res.length - i - 1] = (TermInfo) tiq.pop();
+            res[res.length - i - 1] = tiq.pop();
         }
         return res;
     }

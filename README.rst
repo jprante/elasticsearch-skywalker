@@ -1,5 +1,9 @@
-Skywalker plugin for ElasticSearch
-===================================
+.. image:: ../../../elasticsearch-river-jdbc/raw/master/src/site/skywalker.png
+
+`Sky Walker by Patrick Zédouard <http://www.youtube.com/watch?v=dSNSxZTvXSg>`
+
+ElasticSearch Skywalker plugin
+==============================
 
 The Skywalker plugin for Elasticsearch is like Luke for Lucene.
 
@@ -19,38 +23,24 @@ Skywalking gives you
 
 Because Elasticsearch and Elasticsearch Head offer already a lot what Luke does with Lucene, Skywalker has rather few features, just to complement some missing parts.
 
-Planned features
-
-- a JSON-based backup/restore tool, saving all Elasticsearch internals to a readable file ("portable index")
-
-- reconstruct a just deleted document, by document ID
-
-Usage example
--------------
-
-Usage is simple. Just issue
-
-	curl -XGET 'localhost:9200/_skywalker'
-
-Or, for a single index 
-
-	curl -XGET 'localhost:9200/indexname/_skywalker'
-
-
 Installation
 ------------
 
-In order to install the plugin, simply run: `bin/plugin -install jprante/elasticsearch-skywalker/1.1.0`.
+Current version of the plugin: **2.0.0** (February 7, 2013)
 
-    ---------------------------------------
-    | Skywalker Plugin | ElasticSearch    |
-    ---------------------------------------
-    | 1.1.0            | 0.20             |
-    ---------------------------------------
-    | 1.0.1            | 0.19.11          |
-    ---------------------------------------
-    | 1.0.0            | 0.19.3           |
-    ---------------------------------------
+Prerequisites::
+
+  Elasticsearch 0.20.x
+
+Bintray:
+
+https://bintray.com/pkg/show/general/jprante/elasticsearch-plugins/elasticsearch-skywalker
+
+`Direct download <http://dl.bintray.com/content/jprante/elasticsearch-plugins/release/org/xbib/elasticsearch/elasticsearch-skywalker/2.0.0/elasticsearch-skywalkerc-2.0.0.zip>`_
+
+Command::
+
+  ./bin/plugin -url  -install skywalker
 
 
 Documentation
@@ -60,8 +50,7 @@ The Maven project site is [here](http://jprante.github.com/elasticsearch-skywalk
 
 The Javadoc API can be found [here](http://jprante.github.com/elasticsearch-skywalker/apidocs/index.html)
 
-Example output
---------------
+Example output::
 
 	{
 	  "ok" : true,
@@ -200,11 +189,23 @@ Example output
 	        "isindexed" : true
 	      }, {
 	[...]
-	
-	
+
 License
--------
-[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+=======
 
 This plugin re-uses code of the Luke project <http://code.google.com/p/luke/>
 
+Elasticsearch Skywalker Plugin
+
+Copyright (C) 2012,2013 Jörg Prante
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specif

@@ -38,6 +38,6 @@ public class SkywalkerAction extends Action<SkywalkerRequest, SkywalkerResponse,
 
     @Override
     public SkywalkerRequestBuilder newRequestBuilder(Client client) {
-        return new SkywalkerRequestBuilder((InternalGenericClient)client);
+        return new SkywalkerRequestBuilder((InternalGenericClient) client);
     }
 }

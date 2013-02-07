@@ -18,11 +18,6 @@
  */
 package org.elasticsearch.skywalker.reconstruct;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
 import org.apache.lucene.index.FieldInfo;
@@ -35,6 +30,12 @@ import org.apache.lucene.index.TermPositions;
 import org.apache.lucene.index.TermVectorOffsetInfo;
 import org.apache.lucene.util.ReaderUtil;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * This class attempts to reconstruct all fields from a document existing in a
  * Lucene index. This operation may be (and usually) is lossy - e.g. unstored
@@ -44,7 +45,6 @@ import org.apache.lucene.util.ReaderUtil;
  * the index.
  *
  * @author ab
- *
  */
 public class DocReconstructor {
 
@@ -65,11 +65,11 @@ public class DocReconstructor {
     /**
      * Prepare a document reconstructor.
      *
-     * @param reader IndexReader to read from.
+     * @param reader     IndexReader to read from.
      * @param fieldNames if non-null or not empty, data will be collected only
-     * from these fields, otherwise data will be collected from all fields
-     * @param numTerms total number of terms in the index, or -1 if unknown
-     * (will be calculated)
+     *                   from these fields, otherwise data will be collected from all fields
+     * @param numTerms   total number of terms in the index, or -1 if unknown
+     *                   (will be calculated)
      * @throws Exception
      */
     public DocReconstructor(IndexReader reader, String[] fieldNames, int numTerms) throws Exception {
@@ -91,7 +91,7 @@ public class DocReconstructor {
         }
         if (numTerms == -1) {
             TermEnum te = null;
-            try  {
+            try {
                 te = reader.terms();
                 numTerms = 0;
                 while (te.next()) {
@@ -107,8 +107,8 @@ public class DocReconstructor {
      * Reconstruct document fields.
      *
      * @param docNum document number. If this document is deleted, but the index
-     * is not optimized yet, the reconstruction process may still yield the
-     * reconstructed field content even from deleted documents.
+     *               is not optimized yet, the reconstruction process may still yield the
+     *               reconstructed field content even from deleted documents.
      * @return reconstructed document
      * @throws Exception
      */
@@ -190,7 +190,7 @@ public class DocReconstructor {
                             continue;
                         }
                         term = te.term().text();
-                        GrowableStringArray gsa = (GrowableStringArray) res.getReconstructedFields().get(te.term().field());
+                        GrowableStringArray gsa = res.getReconstructedFields().get(te.term().field());
                         if (gsa == null) {
                             gsa = new GrowableStringArray();
                             res.getReconstructedFields().put(te.term().field(), gsa);

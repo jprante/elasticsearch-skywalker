@@ -1,13 +1,14 @@
 package org.apache.lucene.index;
 
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.IndexInput;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.IndexInput;
 
 public class IndexGate {
 
@@ -169,7 +170,7 @@ public class IndexGate {
         infos.read(dir);
         int compound = 0, nonCompound = 0;
         for (int i = 0; i < infos.size(); i++) {
-            if (((SegmentInfo) infos.info(i)).getUseCompoundFile()) {
+            if (infos.info(i).getUseCompoundFile()) {
                 compound++;
             } else {
                 nonCompound++;
@@ -197,7 +198,7 @@ public class IndexGate {
         infos.read(dir);
         ArrayList<String> names = new ArrayList();
         for (int i = 0; i < infos.size(); i++) {
-            SegmentInfo info = (SegmentInfo) infos.info(i);
+            SegmentInfo info = infos.info(i);
             names.addAll(info.files());
             names.add(info.getDelFileName());
         }
@@ -212,7 +213,7 @@ public class IndexGate {
         }
         try {
             return hasChanges.getBoolean(ir);
-        } catch (IllegalArgumentException  e) {
+        } catch (IllegalArgumentException e) {
             return false;
         } catch (IllegalAccessException e) {
             return false;

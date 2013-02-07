@@ -18,10 +18,11 @@
  */
 package org.elasticsearch.skywalker.collectors;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.Scorer;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class AllHitsCollector extends AccessibleHitCollector {
 
@@ -51,12 +52,12 @@ public class AllHitsCollector extends AccessibleHitCollector {
 
     @Override
     public int getDocId(int i) {
-        return ((AllHitsCollector.AllHit) hits.get(i)).docId;
+        return hits.get(i).docId;
     }
 
     @Override
     public float getScore(int i) {
-        return ((AllHitsCollector.AllHit) hits.get(i)).score;
+        return hits.get(i).score;
     }
 
     @Override

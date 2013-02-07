@@ -18,9 +18,10 @@
  */
 package org.elasticsearch.skywalker.collectors;
 
-import java.io.IOException;
 import org.apache.lucene.search.Scorer;
 import org.apache.lucene.search.Weight;
+
+import java.io.IOException;
 
 public class NoScoringScorer extends Scorer {
 

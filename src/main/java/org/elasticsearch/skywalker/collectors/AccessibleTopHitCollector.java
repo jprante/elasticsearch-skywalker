@@ -18,11 +18,12 @@
  */
 package org.elasticsearch.skywalker.collectors;
 
-import java.io.IOException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.Scorer;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopScoreDocCollector;
+
+import java.io.IOException;
 
 public class AccessibleTopHitCollector extends AccessibleHitCollector {
 
