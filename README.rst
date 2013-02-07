@@ -36,11 +36,11 @@ Bintray:
 
 https://bintray.com/pkg/show/general/jprante/elasticsearch-plugins/elasticsearch-skywalker
 
-`Direct download <http://dl.bintray.com/content/jprante/elasticsearch-plugins/release/org/xbib/elasticsearch/elasticsearch-skywalker/2.0.0/elasticsearch-skywalkerc-2.0.0.zip>`_
+`Direct download <http://dl.bintray.com/content/jprante/elasticsearch-plugins/org/xbib/elasticsearch/elasticsearch-skywalker/2.0.0/elasticsearch-skywalkerc-2.0.0.zip>`_
 
 Command::
 
-  ./bin/plugin -url  -install skywalker
+  ./bin/plugin -url http://bit.ly/WSMLwT -install skywalker
 
 
 Documentation

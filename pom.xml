@@ -32,7 +32,7 @@
         <repository>
             <id>bintray-jprante-elasticsearch-plugins-elasticsearch-skywalker</id>
             <name>jprante-elasticsearch-plugins-elasticsearch-skywalker</name>
-            <url>https://api.bintray.com/maven/jprante/elasticsearch-plugins/elasticsearch-skywalker/release</url>
+            <url>https://api.bintray.com/maven/jprante/elasticsearch-plugins/elasticsearch-skywalker</url>
         </repository>
     </distributionManagement>
 
