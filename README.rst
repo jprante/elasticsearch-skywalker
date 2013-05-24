@@ -1,6 +1,6 @@
 .. image:: ../../../elasticsearch-skywalker/raw/master/src/site/skywalker.png
 
-`Sky Walker by Patrick Zédouard <http://www.youtube.com/watch?v=dSNSxZTvXSg>`
+`Sky Walker by Patrick Zédouard <http://www.youtube.com/watch?v=dSNSxZTvXSg>`_
 
 ElasticSearch Skywalker plugin
 ==============================
@@ -23,34 +23,37 @@ Skywalking gives you
 
 Because Elasticsearch and Elasticsearch Head offer already a lot what Luke does with Lucene, Skywalker has rather few features, just to complement some missing parts.
 
+It is recommended to use Skywalker for learning on rather small indices.
+
+With large indices, or on production machines, unpredictable exceptions may happen, mostly out of memory execptions. You have been warned. Use at your own risk!
+
 Installation
 ------------
 
-Current version of the plugin: **2.0.0** (February 7, 2013)
+Current version of the plugin: **3.0.0** (May 24, 2013)
 
 Prerequisites::
 
-  Elasticsearch 0.20.x
+  Elasticsearch 0.90.x
 
 Bintray:
 
 https://bintray.com/pkg/show/general/jprante/elasticsearch-plugins/elasticsearch-skywalker
 
-`Direct download <http://dl.bintray.com/content/jprante/elasticsearch-plugins/org/xbib/elasticsearch/elasticsearch-skywalker/2.0.0/elasticsearch-skywalkerc-2.0.0.zip>`_
+`Direct download <http://dl.bintray.com/content/jprante/elasticsearch-plugins/org/xbib/elasticsearch/elasticsearch-skywalker/3.0.0/elasticsearch-skywalkerc-2.0.0.zip>`_
 
 Command::
 
-  ./bin/plugin -url http://bit.ly/WSMLwT -install skywalker
+  ./bin/plugin -url http://bit.ly/19b58FW -install skywalker
 
 
 Documentation
 -------------
 
-The Maven project site is [here](http://jprante.github.com/elasticsearch-skywalker)
+The documentation and explanation fo the Skywalker output is not ready yet :( but I hope it speaks for itself. If
+you know Lucene it's easy to associate things...
 
-The Javadoc API can be found [here](http://jprante.github.com/elasticsearch-skywalker/apidocs/index.html)
-
-Example output::
+Example output:
 
 	{
 	  "ok" : true,

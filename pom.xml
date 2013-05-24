@@ -6,11 +6,11 @@
 
     <groupId>org.xbib.elasticsearch</groupId>
     <artifactId>elasticsearch-skywalker</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
 
     <name>elasticsearch-skywalker</name>
-    <description>ElasticSearch Skywalker -  Luke for Elasticsearch</description>
+    <description>Skywalker for Elasticsearch is like Luke for Lucene</description>
 
     <inceptionYear>2012</inceptionYear>
 
@@ -38,7 +38,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <elasticsearch.version>0.20.0</elasticsearch.version>
+        <elasticsearch.version>0.90.0</elasticsearch.version>
         <github.global.server>github</github.global.server>
     </properties>
 
