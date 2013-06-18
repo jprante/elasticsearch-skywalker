@@ -40,7 +40,6 @@ import org.elasticsearch.ElasticSearchException;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
 import org.elasticsearch.common.Nullable;
-import org.elasticsearch.common.collect.ImmutableMap;
 import org.elasticsearch.common.io.Streams;
 import org.elasticsearch.common.xcontent.XContentHelper;
 import org.elasticsearch.common.xcontent.XContentParser;
@@ -55,6 +54,8 @@ import org.elasticsearch.index.store.StoreFileMetaData;
 import org.xbib.elasticsearch.skywalker.stats.FieldTermCount;
 import org.xbib.elasticsearch.skywalker.stats.TermStats;
 import org.xbib.elasticsearch.skywalker.stats.TermStatsQueue;
+
+import com.google.common.collect.ImmutableMap;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -585,15 +586,7 @@ public class Skywalker implements LuceneFormats {
         return result;
     }
 
-    public long getTotalTermFreq(String field, BytesRef termtext) throws Exception {
-        long totalTF;
-        try {
-            totalTF = MultiFields.totalTermFreq(reader, field, termtext);
-            return totalTF;
-        } catch (Exception e) {
-            return 0;
-        }
-    }
+
 
     public float decodeNormValue(byte value, TFIDFSimilarity sim) {
         return sim.decodeNormValue(value);

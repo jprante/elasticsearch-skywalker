@@ -48,6 +48,8 @@ import org.xbib.elasticsearch.skywalker.stats.TermStats;
 import org.elasticsearch.threadpool.ThreadPool;
 import org.elasticsearch.transport.TransportService;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,8 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-
-import static org.elasticsearch.common.collect.Lists.newArrayList;
 
 /**
  * Transport action for Skywalker plugin.
@@ -116,7 +116,7 @@ public class TransportSkywalkerAction
             } else if (shardResponse instanceof BroadcastShardOperationFailedException) {
                 failedShards++;
                 if (shardFailures == null) {
-                    shardFailures = newArrayList();
+                    shardFailures = Lists.newArrayList();
                 }
                 shardFailures.add(new DefaultShardOperationFailedException((BroadcastShardOperationFailedException) shardResponse));
             } else {

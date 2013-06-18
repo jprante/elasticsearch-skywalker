@@ -35,11 +35,11 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import java.net.URI;
+import com.google.common.collect.Maps;
+
 import java.util.Map;
 import java.util.Random;
 
-import static org.elasticsearch.common.collect.Maps.newHashMap;
 import static org.elasticsearch.common.settings.ImmutableSettings.Builder.EMPTY_SETTINGS;
 import static org.elasticsearch.common.settings.ImmutableSettings.settingsBuilder;
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
@@ -57,9 +57,9 @@ public abstract class AbstractNodeTest extends Assert {
             .put("cluster.name", CLUSTER)
             .build();
 
-    private Map<String, Node> nodes = newHashMap();
-    private Map<String, Client> clients = newHashMap();
-    private Map<String, InetSocketTransportAddress> addresses = newHashMap();
+    private Map<String, Node> nodes = Maps.newHashMap();
+    private Map<String, Client> clients = Maps.newHashMap();	
+    private Map<String, InetSocketTransportAddress> addresses = Maps.newHashMap();
 
     @BeforeMethod
     public void createIndices() throws Exception {

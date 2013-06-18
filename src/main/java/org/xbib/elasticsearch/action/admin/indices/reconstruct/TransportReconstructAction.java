@@ -40,11 +40,12 @@ import org.xbib.elasticsearch.skywalker.reconstruct.DocumentReconstructor;
 import org.elasticsearch.threadpool.ThreadPool;
 import org.elasticsearch.transport.TransportService;
 
+import com.google.common.collect.Lists;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import static org.elasticsearch.common.collect.Lists.newArrayList;
 
 /**
  *  Transport reconstruct index action
@@ -81,7 +82,7 @@ public class TransportReconstructAction extends TransportBroadcastOperationActio
         int successfulShards = 0;
         int failedShards = 0;
         List<ShardOperationFailedException> shardFailures = null;
-        final List<ShardReconstructIndexResponse> shards = newArrayList();
+        final List<ShardReconstructIndexResponse> shards = Lists.newArrayList();
         for (int i = 0; i < shardsResponses.length(); i++) {
             Object shardResponse = shardsResponses.get(i);
             if (shardResponse == null) {
@@ -89,7 +90,7 @@ public class TransportReconstructAction extends TransportBroadcastOperationActio
             } else if (shardResponse instanceof BroadcastShardOperationFailedException) {
                 failedShards++;
                 if (shardFailures == null) {
-                    shardFailures = newArrayList();
+                    shardFailures = Lists.newArrayList();
                 }
                 shardFailures.add(new DefaultShardOperationFailedException((BroadcastShardOperationFailedException) shardResponse));
             } else {
