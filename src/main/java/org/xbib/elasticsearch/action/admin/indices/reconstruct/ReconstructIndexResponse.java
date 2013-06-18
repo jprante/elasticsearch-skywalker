@@ -23,10 +23,11 @@ import org.elasticsearch.action.support.broadcast.BroadcastOperationResponse;
 import org.elasticsearch.common.io.stream.StreamInput;
 import org.elasticsearch.common.io.stream.StreamOutput;
 
+import com.google.common.collect.Lists;
+
 import java.io.IOException;
 import java.util.List;
 
-import static org.elasticsearch.common.collect.Lists.newArrayList;
 
 /**
  * A response for a reconstruct action.
@@ -53,7 +54,7 @@ public class ReconstructIndexResponse extends BroadcastOperationResponse {
     public void readFrom(StreamInput in) throws IOException {
         super.readFrom(in);
         int n = in.readVInt();
-        shards = newArrayList();
+        shards = Lists.newArrayList();
         for (int i = 0; i < n; i++) {
             ShardReconstructIndexResponse r = new ShardReconstructIndexResponse();
             r.readFrom(in);
