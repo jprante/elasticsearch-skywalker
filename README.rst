@@ -1,11 +1,11 @@
-.. image:: ../../../elasticsearch-skywalker/raw/master/src/site/skywalker.png
+.. image:: ../../../elasticsearch-skywalker/raw/master/src/site/cologne-skywalker.jpg
 
-`Sky Walker by Patrick Zédouard <http://www.youtube.com/watch?v=dSNSxZTvXSg>`_
+`Skywalking the Cologne Cathedral by Vadim Makhorov <http://dedmaxopka.livejournal.com/71750.html>`_
 
-ElasticSearch Skywalker plugin
+Elasticsearch Skywalker plugin
 ==============================
 
-The Skywalker plugin for Elasticsearch is like Luke for Lucene.
+The Skywalker plugin for `Elasticsearch <http://github.com/elasticsearch/elasticsearch>`_ is like Luke for Lucene.
 
 Well, almost, it's not coming with a GUI right now.
 
@@ -40,7 +40,7 @@ Bintray:
 
 https://bintray.com/pkg/show/general/jprante/elasticsearch-plugins/elasticsearch-skywalker
 
-`Direct download <http://dl.bintray.com/content/jprante/elasticsearch-plugins/org/xbib/elasticsearch/elasticsearch-skywalker/3.0.0/elasticsearch-skywalkerc-2.0.0.zip>`_
+`Direct download <http://dl.bintray.com/content/jprante/elasticsearch-plugins/org/xbib/elasticsearch/elasticsearch-skywalker/3.0.0/elasticsearch-skywalker-2.0.0.zip>`_
 
 Command::
 
