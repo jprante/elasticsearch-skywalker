@@ -1,6 +1,6 @@
-.. image:: ../../../elasticsearch-skywalker/raw/master/src/site/cologne-skywalker.jpg
+.. image:: ../../../elasticsearch-skywalker/raw/master/src/site/resources/cologne-skywalker.jpg
 
-`Skywalking the Cologne Cathedral by Vadim Makhorov <http://dedmaxopka.livejournal.com/71750.html>`_
+Image `Skywalking the Cologne Cathedral by Vadim Makhorov <http://dedmaxopka.livejournal.com/71750.html>`_
 
 Elasticsearch Skywalker plugin
 ==============================
@@ -36,15 +36,23 @@ Prerequisites::
 
   Elasticsearch 0.90.x
 
-Bintray:
+=============  =========  =================  =============================================================
+ES version     Plugin     Release date       Command
+-------------  ---------  -----------------  -------------------------------------------------------------
+0.90.5         **3.0.0**  May 24, 2013       ./bin/plugin --install decompound --url http://bit.ly/19b58FW
+=============  =========  =================  =============================================================
 
-https://bintray.com/pkg/show/general/jprante/elasticsearch-plugins/elasticsearch-skywalker
+Do not forget to restart the node after installing.
 
-`Direct download <http://dl.bintray.com/content/jprante/elasticsearch-plugins/org/xbib/elasticsearch/elasticsearch-skywalker/3.0.0/elasticsearch-skywalker-2.0.0.zip>`_
+Project docs
+------------
 
-Command::
+The Maven project site is available at `Github <http://jprante.github.io/elasticsearch-skywalker>`_
 
-  ./bin/plugin -url http://bit.ly/19b58FW -install skywalker
+Binaries
+--------
+
+Binaries are available at `Bintray <https://bintray.com/pkg/show/general/jprante/elasticsearch-plugins/elasticsearch-skywalker>`_
 
 
 Documentation
@@ -211,4 +219,5 @@ You may obtain a copy of the License at
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specif
+See the License for the specific language governing permissions and
+limitations under the License.
