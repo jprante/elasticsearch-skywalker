@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Licensed to ElasticSearch and Shay Banon under one<a name="line.2"></a>
+<span class="sourceLineNo">003</span> * or more contributor license agreements.  See the NOTICE file<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * distributed with this work for additional information<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * regarding copyright ownership. ElasticSearch licenses this<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * file to you under the Apache License, Version 2.0 (the<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * "License"); you may not use this file except in compliance<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * with the License.  You may obtain a copy of the License at<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *<a name="line.9"></a>
+<span class="sourceLineNo">010</span> *    http://www.apache.org/licenses/LICENSE-2.0<a name="line.10"></a>
+<span class="sourceLineNo">011</span> *<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * Unless required by applicable law or agreed to in writing,<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * software distributed under the License is distributed on an<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY<a name="line.14"></a>
+<span class="sourceLineNo">015</span> * KIND, either express or implied.  See the License for the<a name="line.15"></a>
+<span class="sourceLineNo">016</span> * specific language governing permissions and limitations<a name="line.16"></a>
+<span class="sourceLineNo">017</span> * under the License.<a name="line.17"></a>
+<span class="sourceLineNo">018</span> */<a name="line.18"></a>
+<span class="sourceLineNo">019</span>package org.xbib.elasticsearch.skywalker.reconstruct;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>import org.apache.lucene.document.Document;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>import org.apache.lucene.index.AtomicReader;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import org.apache.lucene.index.CompositeReader;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import org.apache.lucene.index.DocsAndPositionsEnum;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>import org.apache.lucene.index.FieldInfo;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>import org.apache.lucene.index.FieldInfos;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>import org.apache.lucene.index.IndexReader;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>import org.apache.lucene.index.IndexableField;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import org.apache.lucene.index.MultiFields;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import org.apache.lucene.index.SlowCompositeReaderWrapper;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import org.apache.lucene.index.Terms;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import org.apache.lucene.index.TermsEnum;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>import org.apache.lucene.util.Bits;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>import org.elasticsearch.ElasticSearchIllegalArgumentException;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>import org.elasticsearch.common.xcontent.ToXContent;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>import org.elasticsearch.common.xcontent.XContentBuilder;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import org.xbib.elasticsearch.action.skywalker.support.IndexableFieldToXContent;<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>import java.io.IOException;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>import java.util.ArrayList;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>import java.util.List;<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>/**<a name="line.45"></a>
+<span class="sourceLineNo">046</span> * This class attempts to reconstruct all fields from a document existing in a<a name="line.46"></a>
+<span class="sourceLineNo">047</span> * Lucene index. This operation may be (and usually) is lossy - e.g. unstored<a name="line.47"></a>
+<span class="sourceLineNo">048</span> * fields are rebuilt from terms present in the index, and these terms may have<a name="line.48"></a>
+<span class="sourceLineNo">049</span> * been changed (e.g. lowercased, stemmed), and many other input tokens may have<a name="line.49"></a>
+<span class="sourceLineNo">050</span> * been skipped altogether by the Analyzer, when fields were originally added to<a name="line.50"></a>
+<span class="sourceLineNo">051</span> * the index.<a name="line.51"></a>
+<span class="sourceLineNo">052</span> *<a name="line.52"></a>
+<span class="sourceLineNo">053</span> *  @author ab<a name="line.53"></a>
+<span class="sourceLineNo">054</span> *  @author &lt;a href="mailto:joergprante@gmail.com"&gt;J&amp;ouml;rg Prante&lt;/a&gt;<a name="line.54"></a>
+<span class="sourceLineNo">055</span> */<a name="line.55"></a>
+<span class="sourceLineNo">056</span>public class DocumentReconstructor {<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>    private AtomicReader reader;<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>    /**<a name="line.60"></a>
+<span class="sourceLineNo">061</span>     * Prepare a document reconstructor.<a name="line.61"></a>
+<span class="sourceLineNo">062</span>     *<a name="line.62"></a>
+<span class="sourceLineNo">063</span>     * @param indexReader IndexReader to read from.<a name="line.63"></a>
+<span class="sourceLineNo">064</span>     * @throws Exception<a name="line.64"></a>
+<span class="sourceLineNo">065</span>     */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>    public DocumentReconstructor(IndexReader indexReader) {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>        if (indexReader == null) {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>            throw new ElasticSearchIllegalArgumentException("reader cannot be null");<a name="line.68"></a>
+<span class="sourceLineNo">069</span>        }<a name="line.69"></a>
+<span class="sourceLineNo">070</span>        try {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>            if (indexReader instanceof CompositeReader) {<a name="line.71"></a>
+<span class="sourceLineNo">072</span>                this.reader = new SlowCompositeReaderWrapper((CompositeReader) indexReader);<a name="line.72"></a>
+<span class="sourceLineNo">073</span>            } else if (indexReader instanceof AtomicReader) {<a name="line.73"></a>
+<span class="sourceLineNo">074</span>                this.reader = (AtomicReader) indexReader;<a name="line.74"></a>
+<span class="sourceLineNo">075</span>            } else {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>                throw new ElasticSearchIllegalArgumentException("unsupported IndexReader class " + indexReader.getClass().getName());<a name="line.76"></a>
+<span class="sourceLineNo">077</span>            }<a name="line.77"></a>
+<span class="sourceLineNo">078</span>        } catch (IOException e) {<a name="line.78"></a>
+<span class="sourceLineNo">079</span>            throw new ElasticSearchIllegalArgumentException(e.getMessage());<a name="line.79"></a>
+<span class="sourceLineNo">080</span>        }<a name="line.80"></a>
+<span class="sourceLineNo">081</span>    }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>    /**<a name="line.83"></a>
+<span class="sourceLineNo">084</span>     * Reconstruct an index shard<a name="line.84"></a>
+<span class="sourceLineNo">085</span>     *<a name="line.85"></a>
+<span class="sourceLineNo">086</span>     * @return reconstructed document<a name="line.86"></a>
+<span class="sourceLineNo">087</span>     * @throws Exception<a name="line.87"></a>
+<span class="sourceLineNo">088</span>     */<a name="line.88"></a>
+<span class="sourceLineNo">089</span>    public XContentBuilder reconstruct(int shardId) throws IOException {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>        XContentBuilder builder = jsonBuilder();<a name="line.90"></a>
+<span class="sourceLineNo">091</span>        builder.startObject()<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                .field("shardId", shardId)<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                .field("numDeletions", reader.numDeletedDocs());<a name="line.93"></a>
+<span class="sourceLineNo">094</span>        builder.startArray("docs");<a name="line.94"></a>
+<span class="sourceLineNo">095</span>        FieldInfos fieldInfos = reader.getFieldInfos();<a name="line.95"></a>
+<span class="sourceLineNo">096</span>        Bits live = MultiFields.getLiveDocs(reader);<a name="line.96"></a>
+<span class="sourceLineNo">097</span>        for (int docNum = 0; docNum &lt; reader.maxDoc(); docNum++) {<a name="line.97"></a>
+<span class="sourceLineNo">098</span>            Document doc = reader.document(docNum);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>            if (live != null &amp;&amp; live.get(docNum)) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>                continue; // not deleted<a name="line.100"></a>
+<span class="sourceLineNo">101</span>            }<a name="line.101"></a>
+<span class="sourceLineNo">102</span>            builder.startObject().startArray("fields");<a name="line.102"></a>
+<span class="sourceLineNo">103</span>            if (fieldInfos != null) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>                for (FieldInfo fi : fieldInfos) {<a name="line.104"></a>
+<span class="sourceLineNo">105</span>                    String name = fi.name;<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                    IndexableField[] fs = doc.getFields(name);<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                    if (fs != null &amp;&amp; fs.length &gt; 0) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                        for (IndexableField f : fs) {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>                            IndexableFieldToXContent x = new IndexableFieldToXContent().field(f);<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                            x.toXContent(builder, ToXContent.EMPTY_PARAMS);<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                        }<a name="line.111"></a>
+<span class="sourceLineNo">112</span>                    }<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                }<a name="line.113"></a>
+<span class="sourceLineNo">114</span>            }<a name="line.114"></a>
+<span class="sourceLineNo">115</span>            builder.endArray();<a name="line.115"></a>
+<span class="sourceLineNo">116</span>            builder.startArray("terms");<a name="line.116"></a>
+<span class="sourceLineNo">117</span>            if (fieldInfos != null) {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                TermsEnum te = null;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>                DocsAndPositionsEnum dpe = null;<a name="line.119"></a>
+<span class="sourceLineNo">120</span>                for (FieldInfo fi : fieldInfos) {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>                    Terms terms = MultiFields.getTerms(reader, fi.name);<a name="line.121"></a>
+<span class="sourceLineNo">122</span>                    if (terms == null) { // no terms in this field<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                        continue;<a name="line.123"></a>
+<span class="sourceLineNo">124</span>                    }<a name="line.124"></a>
+<span class="sourceLineNo">125</span>                    te = terms.iterator(te);<a name="line.125"></a>
+<span class="sourceLineNo">126</span>                    while (te.next() != null) {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>                        DocsAndPositionsEnum newDpe = te.docsAndPositions(live, dpe, 0);<a name="line.127"></a>
+<span class="sourceLineNo">128</span>                        if (newDpe == null) { // no position info for this field<a name="line.128"></a>
+<span class="sourceLineNo">129</span>                            break;<a name="line.129"></a>
+<span class="sourceLineNo">130</span>                        }<a name="line.130"></a>
+<span class="sourceLineNo">131</span>                        dpe = newDpe;<a name="line.131"></a>
+<span class="sourceLineNo">132</span>                        int num = dpe.advance(docNum);<a name="line.132"></a>
+<span class="sourceLineNo">133</span>                        if (num != docNum) { // either greater than or NO_MORE_DOCS<a name="line.133"></a>
+<span class="sourceLineNo">134</span>                            continue; // no data for this term in this doc<a name="line.134"></a>
+<span class="sourceLineNo">135</span>                        }<a name="line.135"></a>
+<span class="sourceLineNo">136</span>                        String text = te.term().utf8ToString();<a name="line.136"></a>
+<span class="sourceLineNo">137</span>                        List&lt;Integer&gt; positions = new ArrayList();<a name="line.137"></a>
+<span class="sourceLineNo">138</span>                        List&lt;Integer&gt; starts = new ArrayList();<a name="line.138"></a>
+<span class="sourceLineNo">139</span>                        List&lt;Integer&gt; ends = new ArrayList();<a name="line.139"></a>
+<span class="sourceLineNo">140</span>                        for (int k = 0; k &lt; dpe.freq(); k++) {<a name="line.140"></a>
+<span class="sourceLineNo">141</span>                            int pos = dpe.nextPosition();<a name="line.141"></a>
+<span class="sourceLineNo">142</span>                            positions.add(pos);<a name="line.142"></a>
+<span class="sourceLineNo">143</span>                            starts.add(dpe.startOffset());<a name="line.143"></a>
+<span class="sourceLineNo">144</span>                            ends.add(dpe.endOffset());<a name="line.144"></a>
+<span class="sourceLineNo">145</span>                        }<a name="line.145"></a>
+<span class="sourceLineNo">146</span>                        builder.startObject()<a name="line.146"></a>
+<span class="sourceLineNo">147</span>                                .field("text", text)<a name="line.147"></a>
+<span class="sourceLineNo">148</span>                                .field("positions", positions)<a name="line.148"></a>
+<span class="sourceLineNo">149</span>                                .field("starts", starts)<a name="line.149"></a>
+<span class="sourceLineNo">150</span>                                .field("ends", ends)<a name="line.150"></a>
+<span class="sourceLineNo">151</span>                                .field("count", dpe.freq())<a name="line.151"></a>
+<span class="sourceLineNo">152</span>                                .endObject();<a name="line.152"></a>
+<span class="sourceLineNo">153</span>                    }<a name="line.153"></a>
+<span class="sourceLineNo">154</span>                }<a name="line.154"></a>
+<span class="sourceLineNo">155</span>            }<a name="line.155"></a>
+<span class="sourceLineNo">156</span>            builder.endArray();<a name="line.156"></a>
+<span class="sourceLineNo">157</span>            builder.endObject();<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        }<a name="line.158"></a>
+<span class="sourceLineNo">159</span>        builder.endArray();<a name="line.159"></a>
+<span class="sourceLineNo">160</span>        builder.endObject();<a name="line.160"></a>
+<span class="sourceLineNo">161</span>        return builder;<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    }<a name="line.162"></a>
+<span class="sourceLineNo">163</span><a name="line.163"></a>
+<span class="sourceLineNo">164</span>}<a name="line.164"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
