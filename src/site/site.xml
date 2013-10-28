@@ -10,7 +10,7 @@
       <topBarEnabled>true</topBarEnabled>
       <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
       <gitHub>
-        <projectId>jprante/elasticsearch-river-oai</projectId>
+        <projectId>jprante/elasticsearch-skywalker</projectId>
         <ribbonOrientation>right</ribbonOrientation>
         <ribbonColor>black</ribbonColor>
       </gitHub>

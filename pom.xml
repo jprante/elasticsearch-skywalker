@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.xbib.elasticsearch</groupId>
+    <groupId>org.xbib.elasticsearch.plugin</groupId>
     <artifactId>elasticsearch-skywalker</artifactId>
     <version>3.0.0</version>
 
@@ -26,11 +26,24 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>jprante</id>
+            <name>Jörg Prante</name>
+            <url>https://github.com/jprante</url>
+        </developer>
+    </developers>
+
     <scm>
         <connection>scm:git:git@github.com:jprante/elasticsearch-skywalker.git</connection>
         <developerConnection>scm:git:git@github.com:jprante/elasticsearch-skywalker.git</developerConnection>
         <url>http://github.com/jprante/elasticsearch-skywalker</url>
     </scm>
+
+    <issueManagement>
+        <system>Github Issue Tracker</system>
+        <url>https://github.com/jprante/elasticsearch-skywalker/issues</url>
+    </issueManagement>
 
     <distributionManagement>
         <repository>
@@ -39,6 +52,19 @@
             <url>https://api.bintray.com/maven/jprante/elasticsearch-plugins/elasticsearch-skywalker</url>
         </repository>
     </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>bintray-elasticsearch-plugins</id>
+            <url>http://dl.bintray.com/jprante/elasticsearch-plugins</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <properties>
         <github.global.server>github</github.global.server>
@@ -181,7 +207,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
