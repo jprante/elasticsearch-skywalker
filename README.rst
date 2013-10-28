@@ -32,6 +32,8 @@ Installation
 
 Current version of the plugin: **3.0.0** (May 24, 2013)
 
+.. image:: https://travis-ci.org/jprante/elasticsearch-skywalker.png
+
 Prerequisites::
 
   Elasticsearch 0.90.x
