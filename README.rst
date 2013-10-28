@@ -60,10 +60,22 @@ Binaries are available at `Bintray <https://bintray.com/pkg/show/general/jprante
 Documentation
 -------------
 
-The documentation and explanation fo the Skywalker output is not ready yet :( but I hope it speaks for itself. If
-you know Lucene it's easy to associate things...
+Example request::
 
-Example output:
+    curl -XDELETE 'localhot:9200/test'
+
+    curl -XPUT 'localhost:9200/test/docs/1' -d '
+    {
+        "content" : "Hello World"
+    }
+    '
+
+    curl -XGET 'localhost:9200/_skywalker'
+
+    curl -XGET 'localhost:9200/test/_skywalker'
+
+
+Example output::
 
 	{
 	  "ok" : true,
