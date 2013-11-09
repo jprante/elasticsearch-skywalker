@@ -373,19 +373,21 @@ public class Skywalker implements LuceneFormats {
     }
 
     /**
-     *  copied from LocalGatewayMetaState
+     *  copied from org.elasticsearch.gateway.local.state.meta.LocalGatewayMetaState
      *
      * @return the meta data from file
      * @throws Exception
      */
 
     public static MetaData.Builder loadState(List<File> files, NodeEnvironment nodeEnv) throws ElasticSearchException {
-        MetaData.Builder metaDataBuilder = MetaData.builder();
-        MetaData globalMetaData = loadGlobalState(files, nodeEnv);
-        if (globalMetaData != null) {
-            metaDataBuilder.metaData(globalMetaData);
-        }
+        MetaData.Builder metaDataBuilder;
         try {
+            MetaData globalMetaData = loadGlobalState(files, nodeEnv);
+            if (globalMetaData != null) {
+                metaDataBuilder = MetaData.builder(globalMetaData);
+            } else {
+                metaDataBuilder = MetaData.builder();
+            }
             Set<String> indices = nodeEnv.findAllIndices();
             for (String index : indices) {
                 IndexMetaData indexMetaData = loadIndex(files, index, nodeEnv);

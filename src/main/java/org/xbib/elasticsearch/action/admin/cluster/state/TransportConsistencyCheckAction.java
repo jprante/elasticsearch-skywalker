@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.elasticsearch.cluster.ClusterState.newClusterStateBuilder;
+import static org.elasticsearch.cluster.ClusterState.builder;
 
 /**
  *  Transport consistency check action
@@ -60,7 +60,7 @@ public class TransportConsistencyCheckAction extends TransportMasterNodeOperatio
 
     @Override
     protected void masterOperation(ConsistencyCheckRequest request, ClusterState state, ActionListener<ConsistencyCheckResponse> listener) throws ElasticSearchException {
-        ClusterState.Builder builder = newClusterStateBuilder();
+        ClusterState.Builder builder = builder();
         List<File> files = new ArrayList();
         builder.metaData(Skywalker.loadState(files, nodeEnv));
         listener.onResponse(new ConsistencyCheckResponse(clusterName, builder.build(), files));

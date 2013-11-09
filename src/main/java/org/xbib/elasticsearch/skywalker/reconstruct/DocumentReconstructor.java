@@ -49,7 +49,7 @@ public class DocumentReconstructor {
         }
         try {
             if (indexReader instanceof CompositeReader) {
-                this.reader = new SlowCompositeReaderWrapper((CompositeReader) indexReader);
+                this.reader = SlowCompositeReaderWrapper.wrap(indexReader);
             } else if (indexReader instanceof AtomicReader) {
                 this.reader = (AtomicReader) indexReader;
             } else {

@@ -139,7 +139,7 @@ public class TransportSkywalkerAction
             IndexService indexService = indicesService.indexServiceSafe(request.index());
             InternalIndexShard indexShard = (InternalIndexShard) indexService.shardSafe(request.shardId());
             MapperService mapperService = indexService.mapperService();
-            Engine.Searcher searcher = indexShard.acquireSearcher();
+            Engine.Searcher searcher = indexShard.acquireSearcher("skywalker_action");
             try {
                 IndexReader reader = searcher.reader();
 

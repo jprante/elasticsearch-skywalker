@@ -15,6 +15,7 @@ import org.elasticsearch.cluster.routing.GroupShardsIterator;
 import org.elasticsearch.cluster.routing.ShardRouting;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.index.engine.Engine;
 import org.elasticsearch.index.service.IndexService;
 import org.elasticsearch.index.shard.service.InternalIndexShard;
 import org.elasticsearch.indices.IndicesService;
@@ -100,12 +101,15 @@ public class TransportReconstructAction extends TransportBroadcastOperationActio
     protected ShardReconstructIndexResponse shardOperation(ShardReconstructIndexRequest request) throws ElasticSearchException {
         IndexService indexService = indicesService.indexService(request.index());
         InternalIndexShard indexShard = (InternalIndexShard) indexService.shardSafe(request.shardId());
-        IndexReader reader = indexShard.engine().searcher().reader();
+        Engine.Searcher searcher = indexShard.engine().acquireSearcher("transport_reconstruct");
+        IndexReader reader = searcher.reader();
         DocumentReconstructor dr = new DocumentReconstructor(reader);
         try {
             return new ShardReconstructIndexResponse(true, dr.reconstruct(request.shardId()));
         } catch (IOException e) {
             throw new ElasticSearchException("failed to reconstruct index", e);
+        } finally {
+            searcher.release();
         }
     }
 

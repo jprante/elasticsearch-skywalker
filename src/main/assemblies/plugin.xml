@@ -11,12 +11,9 @@
             <useProjectArtifact>true</useProjectArtifact>
             <unpack>false</unpack>
             <scope>compile</scope>
-            <excludes>
-                <exclude>org.elasticsearch</exclude>
-                <exclude>org.apache.lucene</exclude>
-                <exclude>com.spatial4j</exclude>
-                <exclude>log4j</exclude>
-            </excludes>
+            <includes>
+                <include>org.xbib.elasticsearch.plugin</include>
+            </includes>
         </dependencySet>
     </dependencySets>  
     <fileSets>
