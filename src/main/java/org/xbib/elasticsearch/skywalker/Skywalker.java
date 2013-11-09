@@ -569,30 +569,12 @@ public class Skywalker implements LuceneFormats {
         return result;
     }
 
-    public long getTotalTermFreq(String field, BytesRef termtext) throws Exception {
-        long totalTF;
-        try {
-            totalTF = MultiFields.totalTermFreq(reader, field, termtext);
-            return totalTF;
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    public float decodeNormValue(byte value, TFIDFSimilarity sim) {
-        return sim.decodeNormValue(value);
-    }
-
-    public byte encodeNormValue(float value, TFIDFSimilarity sim) {
-        return sim.encodeNormValue(value);
-    }
-
     public static String bytesToHex(BytesRef bytes, boolean wrap) {
         return bytesToHex(bytes.bytes, bytes.offset, bytes.length, wrap);
     }
 
     public static String bytesToHex(byte bytes[], int offset, int length, boolean wrap) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         boolean newLine = false;
         for (int i = offset; i < offset + length; ++i) {
             if (i > offset && !newLine) {

@@ -74,6 +74,7 @@ public interface LuceneFormats {
      * Each segment records the Lucene version that created it.
      */
     int FORMAT_3_1 = -11;
+
     /**
      * Some early 4.0 pre-alpha
      */

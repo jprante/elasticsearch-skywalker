@@ -6,11 +6,11 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.IndexTemplateMetaData;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
-import org.elasticsearch.common.collect.ImmutableMap;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Metadata to XContent
@@ -34,7 +34,7 @@ public class MetaDataToXContent implements ToXContent {
             builder.value(index);
         }
         builder.endArray();
-        ImmutableMap<String, ImmutableMap<String, AliasMetaData>> aliases = metadata.aliases ();
+        Map<String, Map<String, AliasMetaData>> aliases = metadata.getAliases();
         builder.startArray("aliases");
         for (String alias : aliases.keySet()) {
             builder.startObject(alias);
@@ -53,7 +53,7 @@ public class MetaDataToXContent implements ToXContent {
         }
         builder.endArray();
         builder.startArray("indexes");
-        ImmutableMap<String,IndexMetaData> indices = metadata.indices();
+        Map<String,IndexMetaData> indices = metadata.getIndices();
         for (String s : indices.keySet()) {
             IndexMetaData imd = indices.get(s);
             builder.startObject();
@@ -64,12 +64,13 @@ public class MetaDataToXContent implements ToXContent {
             builder.field("totalNumberOfShards", imd.getTotalNumberOfShards());
             builder.field("version", imd.getVersion());
             builder.field("settings", imd.getSettings().getAsMap());
-            ImmutableMap<String, MappingMetaData> m = imd.getMappings();
+            Map<String, MappingMetaData> m = imd.getMappings();
+            // skip mappings here
             builder.endObject();
         }
         builder.endArray();
         builder.startArray("templates");
-        ImmutableMap<String,IndexTemplateMetaData> templates = metadata.templates();
+        Map<String,IndexTemplateMetaData> templates = metadata.getTemplates();
         for (String s : templates.keySet()) {
             IndexTemplateMetaData itmd = templates.get(s);
             itmd.getName();

@@ -2,6 +2,7 @@
 package org.xbib.elasticsearch.rest.action.skywalker;
 
 import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.common.Strings;
 import org.xbib.elasticsearch.action.skywalker.SkywalkerAction;
 import org.xbib.elasticsearch.action.skywalker.SkywalkerRequest;
 import org.xbib.elasticsearch.action.skywalker.SkywalkerResponse;
@@ -15,7 +16,6 @@ import org.elasticsearch.rest.RestController;
 import org.elasticsearch.rest.RestRequest;
 import org.elasticsearch.rest.XContentRestResponse;
 import org.elasticsearch.rest.XContentThrowableRestResponse;
-import org.elasticsearch.rest.action.support.RestActions;
 import org.elasticsearch.rest.action.support.RestXContentBuilder;
 
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class RestSkywalkerAction extends BaseRestHandler {
 
     @Override
     public void handleRequest(final RestRequest request, final RestChannel channel) {
-        SkywalkerRequest r = new SkywalkerRequest(RestActions.splitIndices(request.param("index")));
+        SkywalkerRequest r = new SkywalkerRequest(Strings.splitStringByCommaToArray(request.param("index")));
         client.execute(SkywalkerAction.INSTANCE, r, new ActionListener<SkywalkerResponse>() {
 
             @Override

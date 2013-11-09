@@ -26,14 +26,14 @@ import static org.elasticsearch.rest.RestRequest.Method.GET;
 import static org.elasticsearch.rest.RestStatus.OK;
 
 /**
- *  REST reconstruct document action
+ *  REST action for reconstructing an index
  */
 public class RestReconstructIndexAction extends BaseRestHandler {
 
     @Inject
     public RestReconstructIndexAction(Settings settings, Client client, RestController controller) {
         super(settings, client);
-        controller.registerHandler(GET, "/{index}/_reconstruct", this);
+        controller.registerHandler(GET, "/{index}/_skywalker/reconstruct", this);
     }
 
     @Override
@@ -71,6 +71,5 @@ public class RestReconstructIndexAction extends BaseRestHandler {
                         }
                     }
                 });
-
     }
 }

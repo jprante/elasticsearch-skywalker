@@ -32,6 +32,11 @@ public class NoScoringScorer extends Scorer {
     }
 
     @Override
+    public long cost() {
+        return 0;
+    }
+
+    @Override
     public int docID() {
         return 0;
     }

@@ -35,7 +35,7 @@ public class RestConsistencyCheckAction extends BaseRestHandler {
     @Inject
     public RestConsistencyCheckAction(Settings settings, Client client, RestController controller) {
         super(settings, client);
-        controller.registerHandler(GET, "/_cluster/consistency", this);
+        controller.registerHandler(GET, "/_skywalker/consistencycheck", this);
     }
 
     @Override

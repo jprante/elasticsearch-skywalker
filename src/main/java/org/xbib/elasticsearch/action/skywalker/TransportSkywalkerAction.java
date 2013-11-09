@@ -26,6 +26,7 @@ import org.elasticsearch.cluster.routing.ShardRouting;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.NodeEnvironment;
+import org.elasticsearch.index.engine.Engine;
 import org.elasticsearch.index.engine.Segment;
 import org.elasticsearch.index.mapper.MapperService;
 import org.elasticsearch.index.service.IndexService;
@@ -77,11 +78,6 @@ public class TransportSkywalkerAction
     @Override
     protected SkywalkerRequest newRequest() {
         return new SkywalkerRequest();
-    }
-
-    @Override
-    protected boolean ignoreNonActiveExceptions() {
-        return true;
     }
 
     @Override
@@ -140,11 +136,13 @@ public class TransportSkywalkerAction
     @Override
     protected ShardSkywalkerResponse shardOperation(ShardSkywalkerRequest request) throws ElasticSearchException {
         synchronized (mutex) {
+            IndexService indexService = indicesService.indexServiceSafe(request.index());
+            InternalIndexShard indexShard = (InternalIndexShard) indexService.shardSafe(request.shardId());
+            MapperService mapperService = indexService.mapperService();
+            Engine.Searcher searcher = indexShard.acquireSearcher();
             try {
-                IndexService indexService = indicesService.indexServiceSafe(request.index());
-                InternalIndexShard indexShard = (InternalIndexShard) indexService.shardSafe(request.shardId());
-                MapperService mapperService = indexService.mapperService();
-                IndexReader reader = indexShard.searcher().reader();
+                IndexReader reader = searcher.reader();
+
                 Skywalker skywalker = new Skywalker(reader);
 
                 Map<String, Object> response = new HashMap();
@@ -214,6 +212,8 @@ public class TransportSkywalkerAction
                 return new ShardSkywalkerResponse(request.index(), request.shardId()).setResponse(response);
             } catch (Exception ex) {
                 throw new ElasticSearchException(ex.getMessage(), ex);
+            } finally {
+                searcher.release();
             }
         }
     }

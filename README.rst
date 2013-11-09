@@ -30,7 +30,7 @@ With large indices, or on production machines, unpredictable exceptions may happ
 Installation
 ------------
 
-Current version of the plugin: **3.0.0** (May 24, 2013)
+Current version of the plugin: **3.1.0** (Nov  9, 2013)
 
 .. image:: https://travis-ci.org/jprante/elasticsearch-skywalker.png
 
@@ -41,7 +41,8 @@ Prerequisites::
 =============  =========  =================  ============================================================
 ES version     Plugin     Release date       Command
 -------------  ---------  -----------------  ------------------------------------------------------------
-0.90.5         **3.0.0**  May 24, 2013       ./bin/plugin --install skywalker --url http://bit.ly/1eYTIHj
+0.90.0         3.0.0      May 24, 2013       ./bin/plugin --install skywalker --url http://bit.ly/1eYTIHj
+0.90.5         **3.1.0**  Nov  9, 2013       ./bin/plugin --install skywalker --url http://bit.ly/HFJos6
 =============  =========  =================  ============================================================
 
 Do not forget to restart the node after installing.

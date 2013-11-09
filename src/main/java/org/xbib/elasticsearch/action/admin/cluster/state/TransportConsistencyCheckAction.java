@@ -2,6 +2,7 @@
 package org.xbib.elasticsearch.action.admin.cluster.state;
 
 import org.elasticsearch.ElasticSearchException;
+import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.support.master.TransportMasterNodeOperationAction;
 import org.elasticsearch.cluster.ClusterName;
 import org.elasticsearch.cluster.ClusterService;
@@ -58,16 +59,16 @@ public class TransportConsistencyCheckAction extends TransportMasterNodeOperatio
     }
 
     @Override
-    protected boolean localExecute(ConsistencyCheckRequest request) {
-        return true;
-    }
-
-    @Override
-    protected ConsistencyCheckResponse masterOperation(ConsistencyCheckRequest request, ClusterState state) throws ElasticSearchException {
+    protected void masterOperation(ConsistencyCheckRequest request, ClusterState state, ActionListener<ConsistencyCheckResponse> listener) throws ElasticSearchException {
         ClusterState.Builder builder = newClusterStateBuilder();
         List<File> files = new ArrayList();
         builder.metaData(Skywalker.loadState(files, nodeEnv));
-        return new ConsistencyCheckResponse(clusterName, builder.build(), files);
+        listener.onResponse(new ConsistencyCheckResponse(clusterName, builder.build(), files));
+    }
+
+    @Override
+    protected boolean localExecute(ConsistencyCheckRequest request) {
+        return true;
     }
 
 }
