@@ -12,7 +12,7 @@ import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiFields;
 import org.apache.lucene.store.Directory;
-import org.elasticsearch.ElasticSearchException;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.ShardOperationFailedException;
 import org.elasticsearch.action.support.DefaultShardOperationFailedException;
 import org.elasticsearch.action.support.broadcast.BroadcastShardOperationFailedException;
@@ -134,7 +134,7 @@ public class TransportSkywalkerAction
     }
 
     @Override
-    protected ShardSkywalkerResponse shardOperation(ShardSkywalkerRequest request) throws ElasticSearchException {
+    protected ShardSkywalkerResponse shardOperation(ShardSkywalkerRequest request) throws ElasticsearchException {
         synchronized (mutex) {
             IndexService indexService = indicesService.indexServiceSafe(request.index());
             InternalIndexShard indexShard = (InternalIndexShard) indexService.shardSafe(request.shardId());
@@ -211,7 +211,7 @@ public class TransportSkywalkerAction
                 response.put("topterms", termList);
                 return new ShardSkywalkerResponse(request.index(), request.shardId()).setResponse(response);
             } catch (Exception ex) {
-                throw new ElasticSearchException(ex.getMessage(), ex);
+                throw new ElasticsearchException(ex.getMessage(), ex);
             } finally {
                 searcher.release();
             }

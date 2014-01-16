@@ -34,7 +34,7 @@ import org.apache.lucene.store.IOContext;
 import org.apache.lucene.store.IndexInput;
 import org.apache.lucene.util.BytesRef;
 
-import org.elasticsearch.ElasticSearchException;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
 import org.elasticsearch.common.Nullable;
@@ -379,7 +379,7 @@ public class Skywalker implements LuceneFormats {
      * @throws Exception
      */
 
-    public static MetaData.Builder loadState(List<File> files, NodeEnvironment nodeEnv) throws ElasticSearchException {
+    public static MetaData.Builder loadState(List<File> files, NodeEnvironment nodeEnv) throws ElasticsearchException {
         MetaData.Builder metaDataBuilder;
         try {
             MetaData globalMetaData = loadGlobalState(files, nodeEnv);
@@ -398,7 +398,7 @@ public class Skywalker implements LuceneFormats {
                 }
             }
         } catch (Exception e) {
-            throw new ElasticSearchException(e.getMessage());
+            throw new ElasticsearchException(e.getMessage());
         }
         return metaDataBuilder;
     }

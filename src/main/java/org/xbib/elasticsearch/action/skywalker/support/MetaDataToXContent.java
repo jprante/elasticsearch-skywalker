@@ -6,6 +6,8 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.IndexTemplateMetaData;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
+import org.elasticsearch.common.collect.ImmutableOpenMap;
+import org.elasticsearch.common.hppc.cursors.ObjectCursor;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
@@ -30,18 +32,18 @@ public class MetaDataToXContent implements ToXContent {
         builder.field("version", metadata.version());
         builder.field("numberOfShards", metadata.numberOfShards());
         builder.startArray("concreteIndices");
-        for (String index : metadata.concreteAllIndicesAsSet()) {
+        for (String index : metadata.concreteAllIndices()) {
             builder.value(index);
         }
         builder.endArray();
-        Map<String, Map<String, AliasMetaData>> aliases = metadata.getAliases();
+        ImmutableOpenMap<String, ImmutableOpenMap<String, AliasMetaData>> aliases = metadata.getAliases();
         builder.startArray("aliases");
-        for (String alias : aliases.keySet()) {
-            builder.startObject(alias);
+        for (ObjectCursor<String> alias : aliases.keys()) {
+            builder.startObject(alias.value);
             builder.startArray("aliasMetadata");
-            for (String s : aliases.get(alias).keySet()) {
+            for (ObjectCursor<String> s : aliases.get(alias.value).keys()) {
                 builder.startObject();
-                AliasMetaData amd = aliases.get(alias).get(s);
+                AliasMetaData amd = aliases.get(alias.value).get(s.value);
                 builder.field("alias", amd.getAlias());
                 builder.field("filter", amd.getFilter().string());
                 builder.field("indexRouting", amd.getIndexRouting());
@@ -53,9 +55,9 @@ public class MetaDataToXContent implements ToXContent {
         }
         builder.endArray();
         builder.startArray("indexes");
-        Map<String,IndexMetaData> indices = metadata.getIndices();
-        for (String s : indices.keySet()) {
-            IndexMetaData imd = indices.get(s);
+        ImmutableOpenMap<String,IndexMetaData> indices = metadata.getIndices();
+        for (ObjectCursor<String> s : indices.keys()) {
+            IndexMetaData imd = indices.get(s.value);
             builder.startObject();
             builder.field("index", imd.getIndex());
             builder.field("state", imd.getState().name());
@@ -64,15 +66,15 @@ public class MetaDataToXContent implements ToXContent {
             builder.field("totalNumberOfShards", imd.getTotalNumberOfShards());
             builder.field("version", imd.getVersion());
             builder.field("settings", imd.getSettings().getAsMap());
-            Map<String, MappingMetaData> m = imd.getMappings();
+            ImmutableOpenMap<String, MappingMetaData> m = imd.getMappings();
             // skip mappings here
             builder.endObject();
         }
         builder.endArray();
         builder.startArray("templates");
-        Map<String,IndexTemplateMetaData> templates = metadata.getTemplates();
-        for (String s : templates.keySet()) {
-            IndexTemplateMetaData itmd = templates.get(s);
+        ImmutableOpenMap<String,IndexTemplateMetaData> templates = metadata.getTemplates();
+        for (ObjectCursor<String> s : templates.keys()) {
+            IndexTemplateMetaData itmd = templates.get(s.value);
             itmd.getName();
             itmd.getOrder();
             itmd.getTemplate();

@@ -13,7 +13,7 @@ import org.apache.lucene.index.SlowCompositeReaderWrapper;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.Bits;
-import org.elasticsearch.ElasticSearchIllegalArgumentException;
+import org.elasticsearch.ElasticsearchIllegalArgumentException;
 import org.elasticsearch.common.xcontent.ToXContent;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.xbib.elasticsearch.action.skywalker.support.IndexableFieldToXContent;
@@ -45,7 +45,7 @@ public class DocumentReconstructor {
      */
     public DocumentReconstructor(IndexReader indexReader) {
         if (indexReader == null) {
-            throw new ElasticSearchIllegalArgumentException("reader cannot be null");
+            throw new ElasticsearchIllegalArgumentException("reader cannot be null");
         }
         try {
             if (indexReader instanceof CompositeReader) {
@@ -53,10 +53,10 @@ public class DocumentReconstructor {
             } else if (indexReader instanceof AtomicReader) {
                 this.reader = (AtomicReader) indexReader;
             } else {
-                throw new ElasticSearchIllegalArgumentException("unsupported IndexReader class " + indexReader.getClass().getName());
+                throw new ElasticsearchIllegalArgumentException("unsupported IndexReader class " + indexReader.getClass().getName());
             }
         } catch (IOException e) {
-            throw new ElasticSearchIllegalArgumentException(e.getMessage());
+            throw new ElasticsearchIllegalArgumentException(e.getMessage());
         }
     }
 

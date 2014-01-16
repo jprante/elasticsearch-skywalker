@@ -1,7 +1,7 @@
 package org.xbib.elasticsearch.action.admin.indices.reconstruct;
 
 import org.apache.lucene.index.IndexReader;
-import org.elasticsearch.ElasticSearchException;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.ShardOperationFailedException;
 import org.elasticsearch.action.support.DefaultShardOperationFailedException;
 import org.elasticsearch.action.support.broadcast.BroadcastShardOperationFailedException;
@@ -98,7 +98,7 @@ public class TransportReconstructAction extends TransportBroadcastOperationActio
     }
 
     @Override
-    protected ShardReconstructIndexResponse shardOperation(ShardReconstructIndexRequest request) throws ElasticSearchException {
+    protected ShardReconstructIndexResponse shardOperation(ShardReconstructIndexRequest request) throws ElasticsearchException {
         IndexService indexService = indicesService.indexService(request.index());
         InternalIndexShard indexShard = (InternalIndexShard) indexService.shardSafe(request.shardId());
         Engine.Searcher searcher = indexShard.engine().acquireSearcher("transport_reconstruct");
@@ -107,7 +107,7 @@ public class TransportReconstructAction extends TransportBroadcastOperationActio
         try {
             return new ShardReconstructIndexResponse(true, dr.reconstruct(request.shardId()));
         } catch (IOException e) {
-            throw new ElasticSearchException("failed to reconstruct index", e);
+            throw new ElasticsearchException("failed to reconstruct index", e);
         } finally {
             searcher.release();
         }

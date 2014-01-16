@@ -30,21 +30,16 @@ With large indices, or on production machines, unpredictable exceptions may happ
 Installation
 ------------
 
-Current version of the plugin: **3.2.0** (Nov  9, 2013)
-
 .. image:: https://travis-ci.org/jprante/elasticsearch-skywalker.png
 
-Prerequisites::
-
-  Elasticsearch 0.90.x
-
-=============  =========  =================  ============================================================
-ES version     Plugin     Release date       Command
--------------  ---------  -----------------  ------------------------------------------------------------
-0.90.0         3.0.0      May 24, 2013       ./bin/plugin --install skywalker --url http://bit.ly/1eYTIHj
-0.90.5         **3.1.0**  Nov  9, 2013       ./bin/plugin --install skywalker --url http://bit.ly/HFJos6
-0.90.6         **3.2.0**  Nov  9, 2013       ./bin/plugin --install skywalker --url http://bit.ly/19PbcoJ
-=============  =========  =================  ============================================================
+=============  ===========  =================  ============================================================
+ES version     Plugin       Release date       Command
+-------------  -----------  -----------------  ------------------------------------------------------------
+0.90.0         3.0.0        May 24, 2013       ./bin/plugin --install skywalker --url http://bit.ly/1eYTIHj
+0.90.5         3.1.0        Nov  9, 2013       ./bin/plugin --install skywalker --url http://bit.ly/HFJos6
+0.90.6         3.2.0        Nov  9, 2013       ./bin/plugin --install skywalker --url http://bit.ly/19PbcoJ
+1.0.0.RC1      1.0.0.RC1.1  Jan 16, 2014       ./bin/plugin --install skywalker --url http://bit.ly/1htPlFK
+=============  ===========  =================  ============================================================
 
 Do not forget to restart the node after installing.
 
