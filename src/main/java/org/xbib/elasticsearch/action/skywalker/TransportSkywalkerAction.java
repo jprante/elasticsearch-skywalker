@@ -1,13 +1,5 @@
 package org.xbib.elasticsearch.action.skywalker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReferenceArray;
-
 import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiFields;
@@ -34,11 +26,13 @@ import org.elasticsearch.index.shard.service.InternalIndexShard;
 import org.elasticsearch.indices.IndicesService;
 import org.elasticsearch.threadpool.ThreadPool;
 import org.elasticsearch.transport.TransportService;
-
 import org.xbib.elasticsearch.skywalker.FormatDetails;
 import org.xbib.elasticsearch.skywalker.Skywalker;
 import org.xbib.elasticsearch.skywalker.stats.FieldTermCount;
 import org.xbib.elasticsearch.skywalker.stats.TermStats;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import static org.elasticsearch.common.collect.Lists.newArrayList;
 
@@ -60,7 +54,7 @@ public class TransportSkywalkerAction
                                     TransportService transportService,
                                     IndicesService indicesService,
                                     NodeEnvironment nodeEnv) {
-        super(settings, threadPool, clusterService, transportService);
+        super(settings, SkywalkerAction.NAME, threadPool, clusterService, transportService);
         this.indicesService = indicesService;
         this.nodeEnv = nodeEnv;
     }
@@ -68,11 +62,6 @@ public class TransportSkywalkerAction
     @Override
     protected String executor() {
         return ThreadPool.Names.MERGE;
-    }
-
-    @Override
-    protected String transportAction() {
-        return SkywalkerAction.NAME;
     }
 
     @Override
@@ -124,7 +113,7 @@ public class TransportSkywalkerAction
     }
 
     @Override
-    protected ShardSkywalkerRequest newShardRequest(ShardRouting shard, SkywalkerRequest request) {
+    protected ShardSkywalkerRequest newShardRequest(int numShards, ShardRouting shard, SkywalkerRequest request) {
         return new ShardSkywalkerRequest(shard.index(), shard.id(), request);
     }
 
@@ -157,7 +146,7 @@ public class TransportSkywalkerAction
                 }
                 response.put("indexFiles", indexFiles);
 
-                skywalker.getStoreMetadata(response, indexShard.store().list());
+                skywalker.getStoreMetadata(response, indexShard.store().getMetadata());
 
                 response.put("indexVersion", skywalker.getVersion());
                 response.put("directoryImpl", skywalker.getDirImpl());
@@ -212,8 +201,6 @@ public class TransportSkywalkerAction
                 return new ShardSkywalkerResponse(request.index(), request.shardId()).setResponse(response);
             } catch (Exception ex) {
                 throw new ElasticsearchException(ex.getMessage(), ex);
-            } finally {
-                searcher.release();
             }
         }
     }

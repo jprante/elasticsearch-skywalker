@@ -2,15 +2,13 @@
 package org.xbib.elasticsearch.action.admin.indices.reconstruct;
 
 import org.elasticsearch.action.ActionListener;
-import org.elasticsearch.action.support.broadcast.BroadcastOperationRequestBuilder;
-import org.elasticsearch.client.Client;
+import org.elasticsearch.action.ActionRequestBuilder;
 import org.elasticsearch.client.IndicesAdminClient;
-import org.elasticsearch.client.internal.InternalClient;
 
 /**
  * A request builder for reconstructing deleted documents.
  */
-public class ReconstructIndexRequestBuilder extends BroadcastOperationRequestBuilder<ReconstructIndexRequest, ReconstructIndexResponse, ReconstructIndexRequestBuilder> {
+public class ReconstructIndexRequestBuilder extends ActionRequestBuilder<ReconstructIndexRequest, ReconstructIndexResponse, ReconstructIndexRequestBuilder, IndicesAdminClient> {
 
     /**
      * Constructor
@@ -18,7 +16,7 @@ public class ReconstructIndexRequestBuilder extends BroadcastOperationRequestBui
      * @param client
      */
     public ReconstructIndexRequestBuilder(IndicesAdminClient client) {
-        super((InternalClient) client, new ReconstructIndexRequest());
+        super(client, new ReconstructIndexRequest());
     }
 
     /**
@@ -28,6 +26,6 @@ public class ReconstructIndexRequestBuilder extends BroadcastOperationRequestBui
      */
     @Override
     protected void doExecute(ActionListener<ReconstructIndexResponse> listener) {
-        ((IndicesAdminClient) client).execute(ReconstructIndexAction.INSTANCE, request, listener);
+        client.execute(ReconstructIndexAction.INSTANCE, request, listener);
     }
 }

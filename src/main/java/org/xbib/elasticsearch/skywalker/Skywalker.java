@@ -1,44 +1,17 @@
 
 package org.xbib.elasticsearch.skywalker;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.lucene.codecs.CodecUtil;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.FieldInfo;
-import org.apache.lucene.index.Fields;
-import org.apache.lucene.index.IndexCommit;
-import org.apache.lucene.index.IndexFileNames;
-import org.apache.lucene.index.IndexNotFoundException;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.MultiFields;
-import org.apache.lucene.index.SegmentInfos;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.search.similarities.TFIDFSimilarity;
+import org.apache.lucene.index.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.IOContext;
 import org.apache.lucene.store.IndexInput;
 import org.apache.lucene.util.BytesRef;
-
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.MetaData;
 import org.elasticsearch.common.Nullable;
-import org.elasticsearch.common.collect.ImmutableMap;
 import org.elasticsearch.common.io.Streams;
 import org.elasticsearch.common.xcontent.XContentHelper;
 import org.elasticsearch.common.xcontent.XContentParser;
@@ -49,11 +22,16 @@ import org.elasticsearch.index.fielddata.FieldDataType;
 import org.elasticsearch.index.mapper.FieldMapper;
 import org.elasticsearch.index.mapper.MapperService;
 import org.elasticsearch.index.similarity.SimilarityProvider;
+import org.elasticsearch.index.store.Store;
 import org.elasticsearch.index.store.StoreFileMetaData;
-
 import org.xbib.elasticsearch.skywalker.stats.FieldTermCount;
 import org.xbib.elasticsearch.skywalker.stats.TermStats;
 import org.xbib.elasticsearch.skywalker.stats.TermStatsQueue;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
 
 /**
  *
@@ -358,9 +336,9 @@ public class Skywalker implements LuceneFormats {
         return m;
     }
 
-    public void getStoreMetadata(Map<String, Object> response, ImmutableMap<String, StoreFileMetaData> metadata) {
+    public void getStoreMetadata(Map<String, Object> response, Store.MetadataSnapshot metadata) {
         List<Map<String, Object>> result = new ArrayList();
-        for (String name : metadata.keySet()) {
+        for (String name : metadata.asMap().keySet()) {
             StoreFileMetaData metaData = metadata.get(name);
             Map<String, Object> info = new HashMap();
             info.put("name", name);

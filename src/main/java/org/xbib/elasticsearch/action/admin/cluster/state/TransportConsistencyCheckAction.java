@@ -33,7 +33,7 @@ public class TransportConsistencyCheckAction extends TransportMasterNodeOperatio
     @Inject
     public TransportConsistencyCheckAction(Settings settings, TransportService transportService, ClusterService clusterService, ThreadPool threadPool,
                                            ClusterName clusterName, NodeEnvironment nodeEnvironment) {
-        super(settings, transportService, clusterService, threadPool);
+        super(settings, ConsistencyCheckAction.NAME, transportService, clusterService, threadPool);
         this.clusterName = clusterName;
         this.nodeEnv = nodeEnvironment;
     }
@@ -41,11 +41,6 @@ public class TransportConsistencyCheckAction extends TransportMasterNodeOperatio
     @Override
     protected String executor() {
         return ThreadPool.Names.GENERIC;
-    }
-
-    @Override
-    protected String transportAction() {
-        return ConsistencyCheckAction.NAME;
     }
 
     @Override
@@ -60,7 +55,7 @@ public class TransportConsistencyCheckAction extends TransportMasterNodeOperatio
 
     @Override
     protected void masterOperation(ConsistencyCheckRequest request, ClusterState state, ActionListener<ConsistencyCheckResponse> listener) throws ElasticsearchException {
-        ClusterState.Builder builder = builder();
+        ClusterState.Builder builder = builder(state);
         List<File> files = new ArrayList();
         builder.metaData(Skywalker.loadState(files, nodeEnv));
         listener.onResponse(new ConsistencyCheckResponse(clusterName, builder.build(), files));

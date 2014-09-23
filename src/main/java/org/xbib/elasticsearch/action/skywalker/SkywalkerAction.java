@@ -1,14 +1,13 @@
 
 package org.xbib.elasticsearch.action.skywalker;
 
-import org.elasticsearch.action.Action;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.client.internal.InternalGenericClient;
+import org.elasticsearch.action.admin.cluster.ClusterAction;
+import org.elasticsearch.client.ClusterAdminClient;
 
 /**
  * Skywalker action
  */
-public class SkywalkerAction extends Action<SkywalkerRequest, SkywalkerResponse, SkywalkerRequestBuilder> {
+public class SkywalkerAction extends ClusterAction<SkywalkerRequest, SkywalkerResponse, SkywalkerRequestBuilder> {
 
     public static final SkywalkerAction INSTANCE = new SkywalkerAction();
 
@@ -24,7 +23,7 @@ public class SkywalkerAction extends Action<SkywalkerRequest, SkywalkerResponse,
     }
 
     @Override
-    public SkywalkerRequestBuilder newRequestBuilder(Client client) {
-        return new SkywalkerRequestBuilder((InternalGenericClient) client);
+    public SkywalkerRequestBuilder newRequestBuilder(ClusterAdminClient client) {
+        return new SkywalkerRequestBuilder(client);
     }
 }

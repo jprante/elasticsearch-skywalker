@@ -39,13 +39,8 @@ public class TransportReconstructAction extends TransportBroadcastOperationActio
     @Inject
     public TransportReconstructAction(Settings settings, ThreadPool threadPool, ClusterService clusterService,
                                       TransportService transportService, IndicesService indicesService) {
-        super(settings, threadPool, clusterService, transportService);
+        super(settings, ReconstructIndexAction.NAME, threadPool, clusterService, transportService);
         this.indicesService = indicesService;
-    }
-
-    @Override
-    protected String transportAction() {
-        return ReconstructIndexAction.NAME;
     }
 
     @Override
@@ -88,7 +83,7 @@ public class TransportReconstructAction extends TransportBroadcastOperationActio
     }
 
     @Override
-    protected ShardReconstructIndexRequest newShardRequest(ShardRouting shardRouting, ReconstructIndexRequest reconstructIndexRequest) {
+    protected ShardReconstructIndexRequest newShardRequest(int numShards, ShardRouting shardRouting, ReconstructIndexRequest reconstructIndexRequest) {
         return new ShardReconstructIndexRequest(shardRouting.index(), shardRouting.id(), reconstructIndexRequest);
     }
 
@@ -108,8 +103,6 @@ public class TransportReconstructAction extends TransportBroadcastOperationActio
             return new ShardReconstructIndexResponse(true, dr.reconstruct(request.shardId()));
         } catch (IOException e) {
             throw new ElasticsearchException("failed to reconstruct index", e);
-        } finally {
-            searcher.release();
         }
     }
 
