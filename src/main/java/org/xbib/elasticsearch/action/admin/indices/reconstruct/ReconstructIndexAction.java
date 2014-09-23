@@ -22,7 +22,7 @@ public class ReconstructIndexAction extends IndicesAction<ReconstructIndexReques
     }
 
     @Override
-    public ReconstructIndexRequestBuilder newRequestBuilder(IndicesAdminClient indicesAdminClient) {
-        return new ReconstructIndexRequestBuilder(indicesAdminClient);
+    public ReconstructIndexRequestBuilder newRequestBuilder(IndicesAdminClient client) {
+        return new ReconstructIndexRequestBuilder(client);
     }
 }

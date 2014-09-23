@@ -2,7 +2,6 @@
 package org.xbib.elasticsearch.action.skywalker;
 
 import org.elasticsearch.action.support.broadcast.BroadcastOperationRequest;
-import org.elasticsearch.action.support.broadcast.BroadcastOperationThreading;
 import org.elasticsearch.common.io.stream.StreamInput;
 import org.elasticsearch.common.io.stream.StreamOutput;
 
@@ -15,7 +14,6 @@ public class SkywalkerRequest extends BroadcastOperationRequest<SkywalkerRequest
 
     public SkywalkerRequest(String... indices) {
         super(indices);
-        operationThreading(BroadcastOperationThreading.THREAD_PER_SHARD);
     }
 
     @Override

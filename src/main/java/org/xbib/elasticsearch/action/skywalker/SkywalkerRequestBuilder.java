@@ -2,21 +2,21 @@
 package org.xbib.elasticsearch.action.skywalker;
 
 import org.elasticsearch.action.ActionListener;
-import org.elasticsearch.action.support.broadcast.BroadcastOperationRequestBuilder;
+import org.elasticsearch.action.ActionRequestBuilder;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.internal.InternalGenericClient;
+import org.elasticsearch.client.ClusterAdminClient;
 
 /**
  * A request to skywalk one or more indices.
  */
-public class SkywalkerRequestBuilder extends BroadcastOperationRequestBuilder<SkywalkerRequest, SkywalkerResponse, SkywalkerRequestBuilder> {
+public class SkywalkerRequestBuilder extends ActionRequestBuilder<SkywalkerRequest, SkywalkerResponse, SkywalkerRequestBuilder, ClusterAdminClient> {
 
     /**
      * Constructor
      *
      * @param client
      */
-    public SkywalkerRequestBuilder(InternalGenericClient client) {
+    public SkywalkerRequestBuilder(ClusterAdminClient client) {
         super(client, new SkywalkerRequest());
     }
 
@@ -27,6 +27,6 @@ public class SkywalkerRequestBuilder extends BroadcastOperationRequestBuilder<Sk
      */
     @Override
     protected void doExecute(ActionListener<SkywalkerResponse> listener) {
-        ((Client) client).execute(SkywalkerAction.INSTANCE, request, listener);
+        client.execute(SkywalkerAction.INSTANCE, request, listener);
     }
 }
