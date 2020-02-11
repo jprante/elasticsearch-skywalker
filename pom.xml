@@ -56,7 +56,7 @@
     <repositories>
         <repository>
             <id>bintray-elasticsearch-plugins</id>
-            <url>http://dl.bintray.com/jprante/elasticsearch-plugins</url>
+            <url>https://dl.bintray.com/jprante/elasticsearch-plugins</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
